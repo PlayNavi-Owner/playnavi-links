@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlayNavi</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3DB2C5;
+            margin-bottom: 20px;
+        }
+        .btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #3DB2C5;
+            color: white;
+            text-decoration: none;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            // 1. パスとクエリを取得 (/game/123?logId=...)
+            var path = window.location.pathname;
+            var query = window.location.search;
+
+            // 2. アプリのカスタムスキームを作成
+            // app.json の scheme と一致させてください
+            var appScheme = "playnavi:/" + path + query;
+
+            // 3. 手動ボタンのリンク書き換え
+            document.getElementById('manual-btn').href = appScheme;
+
+            // 4. アプリ起動を試みる
+            window.location.href = appScheme;
+
+            // 5. (任意) ストアへの誘導（数秒待って反応なければWebサイトやストアへ）
+            // setTimeout(function() {
+            //     window.location.href = "https://playnavilab.com"; 
+            // }, 3000);
+        };
+    </script>
+</head>
+<body>
+    <div class="logo">PLAYNAVI</div>
+    <p>アプリを開いています...</p>
+    <a href="#" id="manual-btn" class="btn">アプリを開く</a>
+</body>
+</html>
