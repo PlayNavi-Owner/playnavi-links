@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PlayNaviを開く</title>
     <style>
-        /* スタイルの定義 */
         :root {
             --primary-color: #3DB2C5;
             --text-color: #333;
@@ -17,22 +16,20 @@
             margin: 0;
             background-color: var(--bg-color);
             color: var(--text-color);
-            /* flexとheight指定をやめる */
         }
-        
-        /* 新しくラッパー用のスタイルを追加 */
+
+        /* 画面全体のラッパー（X対策を含む） */
         .page-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh; /* ここで最低高さを確保 */
+            min-height: 100vh;
             padding: 20px;
             box-sizing: border-box;
-            /* X対策: 実際の表示領域に合わせて調整されるようにする */
+            /* iOS Safariや一部アプリ内ブラウザでの表示崩れ防止 */
             min-height: -webkit-fill-available; 
         }
-
 
         .container {
             background-color: #fff;
@@ -44,17 +41,17 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            text-align: center; /* ★修正：ここに追加（テキストを中央揃え） */
         }
 
-        /* ロゴ画像 */
+        /* ロゴ画像（サイズ調整済み） */
         .logo-img {
-            width: 180px; /* 幅を広げる */
-            max-width: 80%; /* 小さい画面でもはみ出さないように */
+            width: 180px;
+            max-width: 80%;
             height: auto;
-            margin-bottom: 32px; /* 下の余白も少し増やす */
+            margin-bottom: 32px;
         }
 
-        /* ローディングスピナー */
         .spinner {
             border: 4px solid rgba(0, 0, 0, 0.1);
             width: 36px;
@@ -82,7 +79,7 @@
             line-height: 1.6;
         }
 
-        /* 手動オープンボタン */
+        /* ボタン */
         .btn {
             display: inline-block;
             width: 100%;
@@ -95,56 +92,29 @@
             font-size: 16px;
             box-shadow: 0 4px 10px rgba(61, 178, 197, 0.3);
             transition: transform 0.2s, box-shadow 0.2s;
+            text-align: center; /* ★修正：ここにも念のため追加 */
         }
         .btn:active {
             transform: scale(0.98);
             box-shadow: 0 2px 5px rgba(61, 178, 197, 0.3);
         }
-
-        /* ストアリンクなど（将来用） */
-        .footer-links {
-            margin-top: 24px;
-            font-size: 12px;
-            color: #999;
-        }
-        .footer-links a {
-            color: var(--primary-color);
-            text-decoration: none;
-            margin: 0 8px;
-        }
     </style>
     <script>
         window.onload = function() {
-            // 1. パスとクエリを取得 (/game/123?logId=...)
             var path = window.location.pathname;
             var query = window.location.search;
-
-            // 2. アプリのカスタムスキームを作成
-            // ※ app.jsonの "scheme" と一致させてください (例: "playnavi")
+            
+            // app.jsonのschemeと一致させてください
             var appScheme = "playnavi:/" + path + query;
 
-            // 3. 手動ボタンのリンクを書き換え
             var manualBtn = document.getElementById('manual-btn');
             if (manualBtn) {
                 manualBtn.href = appScheme;
-                // ボタンクリック時のイベントログなど（将来用）
-                manualBtn.onclick = function() {
-                    // console.log('Manual open clicked');
-                };
             }
 
-            // 4. アプリ起動を試みる（少し遅延させるとブラウザの警告が出にくい場合がある）
             setTimeout(function() {
                 window.location.href = appScheme;
             }, 500);
-
-            // 5. (オプション) 一定時間反応がなければストアやWebサイトへ誘導する処理例
-            /*
-            setTimeout(function() {
-                // ここにストアのURLやWebサイトのトップページなどを設定
-                // window.location.href = "https://playnavilab.com";
-            }, 5000); // 5秒後
-            */
         };
     </script>
 </head>
@@ -154,10 +124,12 @@
             <img src="/logo.png" alt="PlayNavi Logo" class="logo-img">
             
             <div class="spinner"></div>
+            
             <h1>PlayNaviを起動しています...</h1>
             <p class="description">
                 自動的にアプリが開かない場合は、<br>下のボタンをタップしてください。
             </p>
+            
             <a href="#" id="manual-btn" class="btn">アプリで開く</a>
         </div>
     </div>
